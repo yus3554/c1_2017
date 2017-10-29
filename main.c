@@ -1,8 +1,12 @@
-/****************************:
-メインファイル
-2017/10/30
-B15T2017C 太田悠介
-*****************************/
+
+//=============================================================================
+// Contents   : 電気情報系実験3 C1 CKY法
+//              メインファイル main.c
+// Author     : B15T2017C 太田悠介
+// LastUpdate : 2017/10/30
+// Since      : 2017/10/28
+//=============================================================================
+
 
 //コマンドライン引数で辞書ファイルの指定をする
 //以下の例は課題1を指定したものである
@@ -20,81 +24,16 @@ int main(int argc, char* argv[]){
   //argv[3]:英文ファイル
   inimain(argv[1], argv[2], argv[3]);
 
+  //cky実行
   cky();
 
-  disp(&ckyarray[1][quenum-1], 0);
+  //S式を表示
+  //入れている配列は表の右上のcell
+  expdisp(&ckyarray[1][quenum-1], 0);
   printf("\n");
 
-  test();
+  //表の表示
+  tabledisp();
 
   return 0;
-}
-
-void test(){
-  //////////////////////////////////////////試しに表示
-  char temp[20] = {};
-  char numnum[10];
-  printf("-");
-  for(int j = 1; j < quenum; j++){
-    printf("-------------");
-  }
-  printf("\n");
-  for(int i = 1; i < quenum; i++){
-    for(int j = 1; j < quenum; j++){
-      if(j >= i){
-        printf("|%12s", ckyarray[i][j].word);
-      }else{
-        printf("%13s", " ");
-      }
-    }
-    printf("|\n");
-    for(int j = 1; j < quenum; j++){
-      if(j >= i){
-        strcpy(temp, ckyarray[i][j].pos[0]);
-        if(ckyarray[i][j].num[0] != 0){
-          sprintf(numnum, "%d", ckyarray[i][j].num[0]);
-          strcat(temp, numnum);
-        }
-        if(ckyarray[i][j].pos[1][0] != '\0'){
-          strcat(temp, "/");
-          strcat(temp, ckyarray[i][j].pos[1]);
-          sprintf(numnum, "%d", ckyarray[i][j].num[0]);
-          strcat(temp, numnum);
-        }
-        printf("|%12s", temp);
-      }else{
-        printf("%13s", " ");
-      }
-    }
-    printf("|\n");
-    for(int j = 1; j < quenum; j++){
-      if(j >= i){
-        if(ckyarray[i][j].left != NULL){
-          strcpy(temp, "(");
-          strcat(temp, ckyarray[i][j].left->pos[ckyarray[i][j].possuf[0]]);
-          sprintf(numnum, "%d", ckyarray[i][j].left->num[ckyarray[i][j].possuf[0]]);
-          strcat(temp, numnum);
-          strcat(temp, ",");
-          strcat(temp, ckyarray[i][j].right->pos[ckyarray[i][j].possuf[1]]);
-          sprintf(numnum, "%d", ckyarray[i][j].right->num[ckyarray[i][j].possuf[1]]);
-          strcat(temp, numnum);
-          strcat(temp, ")");
-          printf("|%12s", temp);
-        }else{
-          printf("|%12s", " ");
-        }
-      }else{
-        printf("%13s", "");
-      }
-    }
-    printf("|\n");
-    for(int j = 1; j < quenum; j++){
-      if(j >= i){
-        printf("-------------");
-      }else{
-        printf("%13s", " ");
-      }
-    }
-    printf("-\n");
-  }
 }

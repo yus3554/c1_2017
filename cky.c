@@ -1,36 +1,15 @@
-/**********************************
-分析ファイル
-2017/10/30
-B15T2017C 太田悠介
-***********************************/
+
+//=============================================================================
+// Contents   : 電気情報系実験3 C1 CKY法
+//              cky法実行ファイル cky.c
+// Author     : B15T2017C 太田悠介
+// LastUpdate : 2017/10/30
+// Since      : 2017/10/28
+//=============================================================================
+
 
 #define GLOBAL_DEFINE
 #include "lib1.h"
-
-//問題の単語の品詞の状態を調べて配列に格納
-void possearch(){
-  for(int i = 0; i < quenum; i++){
-    for(int j = 0; dict[j][0][0] != '\0'; j++){
-      //単語と辞書の左側が一致している場合
-      if(strcmp(questr[i], dict[j][0]) == 0){
-        //単語の品詞に辞書の品詞をコピー
-        strcpy(questrpos[i], dict[j][1]);
-        break;
-        //ピリオドが入っていた場合
-      }else if(strcmp(questr[i], ".") == 0){
-        //単語の品詞に"end"をコピー
-        strcpy(questrpos[i], "end");
-        break;
-      }
-    }
-    //何とも一致しなかった場合配列には何も入っていないので
-    if(strcmp(questrpos[i], "\0") == 0){
-      printf("単語が辞書に存在していません.\n");
-      exit(1);
-    }
-  }
-}
-
 
 //構造体を比較し、文法規則に則っていれば句を返す
 //originが代入する構造体
@@ -67,6 +46,7 @@ int ckyana(ckycell *origin, ckycell *cell1, ckycell *cell2){
 }
 
 
+//ckyanaをckyarray全てに対して実行させる
 void cky(){
   int flg = 0;
   for(int i = 2; i < quenum; i++){
@@ -83,26 +63,4 @@ void cky(){
       ckycellnum++;
     }
   }
-}
-
-
-
-//S式を表示する
-void disp(ckycell *cell, int suf){
-  //いれられたポインタがnullなら親に返す
-  if(cell == NULL){
-    return;
-  }
-  printf("(%s%d ", (*cell).pos[suf], (*cell).num[suf]);
-  disp((*cell).left, (*cell).possuf[0]);
-  //cellに単語が存在するならそれを表示
-  if((*cell).word[0] != '\0'){
-    if(suf == 0){
-      printf("\"%s\"", (*cell).word);
-    }else{
-      printf("(%s \"%s\")", (*cell).pos[0], (*cell).word);
-    }
-  }
-  disp((*cell).right, (*cell).possuf[1]);
-  printf(")");
 }

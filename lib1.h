@@ -1,8 +1,12 @@
-/**************************
-ヘッダファイル
-2017/10/30
-B15T2017C 太田悠介
-***************************/
+
+//=============================================================================
+// Contents   : 電気情報系実験3 C1 CKY法
+//              ヘッダファイル lib1.h
+// Author     : B15T2017C 太田悠介
+// LastUpdate : 2017/10/30
+// Since      : 2017/10/28
+//=============================================================================
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,19 +61,14 @@ GLOBAL int ckycellnum; //ckycellのnumに使う
 
 //プロトタイプ宣言
 
-void test();
-
-//ini.c
+void tabledisp();
 void inimain(char dictname[], char synname[], char filename[]);
 void dictini(char array[][2][10],  char dictname[]);
 void synini(char array[][3][10],  char synname[]);
 int queini(char filename[]);
 void ckyini();
 void ckykuini(ckycell *cell);
-
-//ana.c
 void possearch();
 int ckyana(ckycell *origin, ckycell *cell1, ckycell *cell2);
 void cky();
-void disp(ckycell *cell, int suf);
-//void analize();
+void expdisp(ckycell *cell, int suf);
