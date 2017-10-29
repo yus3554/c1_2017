@@ -1,0 +1,7 @@
+I NOUN
+saw VERB
+a DET
+girl NOUN
+with PREP
+a DET
+telescope NOUN
