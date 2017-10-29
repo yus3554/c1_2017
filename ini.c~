@@ -1,0 +1,82 @@
+/***************************
+辞書ファイルを読み込んだり問題文を入力させる初期化用ファイル
+
+2017/10/19
+B15T2017C 太田悠介
+***************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "lib1.h"
+
+//初期化のメイン
+void inimain(char dictname[], char filename[]){
+  char synname[] = "syn.txt"; //文法のファイル名
+
+  currentini();
+
+  arrayini(dict, dictname);
+  arrayini(syn, synname);
+  quenum = queini(filename);
+}
+
+//現在の状態の初期化
+void currentini(){
+  strcpy(currentpos, "start");
+}
+
+//別ファイルに保存してある辞書や文法をそれぞれ配列に格納
+void arrayini(char array[][2][10],  char filename[]){
+  FILE *fp;
+
+  if ((fp = fopen(filename, "r")) == NULL) {
+    fprintf(stderr, "%sのオープンに失敗しました.\n", filename);
+    exit(EXIT_FAILURE);
+  }
+
+  //辞書ファイルや文法ファイルから空白ごとに配列に格納
+  int i = 0;
+  while (fscanf(fp, "%s%s", array[i][0], array[i][1]) != EOF){
+    i++;
+  }
+}
+
+
+//問題文を配列に入力し、空白ごとに2次元配列に格納し、単語数を返す
+int queini(char filename[]){
+  char que[100] = {}; //問題文入力用配列
+  FILE *fp;
+  int k = 0; //単語分け用の添字
+
+  if ((fp = fopen(filename, "r")) == NULL) {
+    fprintf(stderr, "%sのオープンに失敗しました.\n", filename);
+    exit(EXIT_FAILURE);
+  }
+
+  fscanf(fp, "%[^\n]", que);
+
+  printf("解析文 : %s\n", que);
+
+  //que[i]が'\0'になるまでループ
+  for(int i = 0, j = 0; que[i] != '\0'; i++){
+    //que[i]が空白orピリオドで無いならば
+    if(que[i] != ' ' && que[i] != '.'){
+      //questrに1文字コピーする
+      questr[k][j] = que[i];
+      j++;
+      //ピリオドならば
+    }else if(que[i] == '.'){
+      //k++して配列を1個ずらしてピリオドを追加
+      k++;
+      questr[k][0] = '.';
+      //空白ならば
+    }else{
+      //k++
+      j = 0;
+      k++;
+    }
+  }
+
+  return k+1;
+}

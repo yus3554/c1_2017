@@ -1,0 +1,30 @@
+/****************************:
+メインファイル
+2017/10/19
+B15T2017C 太田悠介
+*****************************/
+
+//コマンドライン引数で辞書ファイルの指定をする
+//以下の例は課題1を指定したものである
+//例) $./ex1 dict1.txt que1.txt
+
+#define GLOBAL_DEFINE
+#include <stdio.h>
+#include "lib1.h"
+
+int main(int argc, char* argv[]){
+
+  //初期化
+  //コマンドライン引数の第一変数を渡す
+  //argv[1]:辞書ファイル
+  //argv[2]:英文ファイル
+  inimain(argv[1], argv[2]);
+
+  //問題の品詞を調べる
+  possearch();
+
+  //解析
+  analize();
+
+  return 0;
+}
